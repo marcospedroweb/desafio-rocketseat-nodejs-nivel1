@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/marcospedroweb/desafio-rocketseat-nodejs-nivel1/issues"
   },
-  "homepage": "https://github.com/marcospedroweb/desafio-rocketseat-nodejs-nivel1#readme"
+  "homepage": "https://github.com/marcospedroweb/desafio-rocketseat-nodejs-nivel1#readme",
+  "dependencies": {
+    "csv": "^6.4.1"
+  }
 }

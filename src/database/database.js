@@ -1,18 +1,51 @@
 //file system, com promisses; o "fs" padrão é mais antigo utilizando callbacks
 import fs from 'node:fs/promises';
 import { formatDate } from '../utils/formatDate.js';
+import { randomUUID } from 'node:crypto';
+import processFile from '../helpers/import-csv.js';
 
 // [import.meta.url] traz a rota completa que este arquivo está
 const databasePath = new URL('../db.json', import.meta.url);
 
 export class Database {
   #database = {};
+  ready;
 
   constructor() {
-    //Faz a leitura do DB file, se houver dado add ao database local se não apenas salva
+    this.ready = this.init();
+  }
+
+  async init() {
     fs.readFile(databasePath, 'utf-8')
-      .then((data) => (this.#database = JSON.parse(data)))
-      .catch(() => this.#persist());
+      .then((data) => {
+        this.#database = JSON.parse(data);
+      })
+      .catch(() => {
+        this.#persist();
+      });
+
+    try {
+      const tasksBackup = await processFile();
+
+      if (Array.isArray(tasksBackup) && tasksBackup.length) {
+        this.#database.tasks = this.#database.tasks ?? [];
+
+        for (const task of tasksBackup) {
+          this.#database.tasks.push({
+            id: randomUUID(),
+            title: task.title,
+            description: task.description,
+            completed_at: null,
+            created_at: Date.now(),
+            updated_at: null,
+          });
+        }
+
+        this.#persist();
+      }
+    } catch (err) {
+      console.error('Erro ao processar backup:', err);
+    }
   }
 
   #persist() {
