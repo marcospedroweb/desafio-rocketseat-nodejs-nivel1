@@ -1,6 +1,6 @@
 # ToDo List - CRUD com Node.js Puro
 
-Aplicação de lista de tarefas (ToDo List) desenvolvida utilizando **Node.js puro**, sem uso de frameworks externos.
+Aplicação de lista de tarefas (ToDo List) desenvolvida utilizando **Node.js puro**, sem uso de frameworks externos. <br>
 O objetivo foi implementar um CRUD completo, organizando a aplicação em camadas para facilitar manutenção e escalabilidade.
 
 ## O que foi praticado e aprendido
